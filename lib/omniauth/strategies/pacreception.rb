@@ -7,12 +7,7 @@ module OmniAuth
         # class NoAuthorizationCodeError < StandardError; en                
         DEFAULT_SCOPE = 'public'
 
-        #OATUH2_PROVIDER_URL = "https://www.elitmus.com"
         option :name, :pacreception
-
-        option :client_options, {
-          site: "https://www.pacreception.com"
-        }
 
         option :authorize_options, [:scope, :auth_type]
 
