@@ -9,6 +9,10 @@ module OmniAuth
 
         option :name, :pacreception
 
+        option :client_options, {
+          site: "https://www.pacreception.com"
+        }
+
         option :authorize_options, [:scope, :auth_type]
 
         uid {  raw_info['id']  }
