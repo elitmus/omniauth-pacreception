@@ -1,8 +1,8 @@
-# Omniauth::Pacreception
+# Omniauth PacReception
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/omniauth/pacreception`. To experiment with that code, run `bin/console` for an interactive prompt.
+## PacReception OAuth2 Strategy for OmniAuth
 
-TODO: Delete this and the text above, and describe your gem
+This is official OmniAuth strategy for authenticating to pacreception.com. To use it, you'll need to register your consumer application on pacreception.com to get pair of OAuth2 Application ID and Secret. It supports the OAuth 2.0 server-side and client-side flows for 3rd party OAuth consumer applications 
 
 ## Installation
 
@@ -22,22 +22,94 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+OmniAuth::Strategies::Pacreception is simply a Rack middleware.
 
-## Development
+ First, register your application at 'www.pacreception.com/oauth/applications' with valid callback url to get app_id and secret (pacreception.com uses callback url to redirect to your app). Create environement variables 'PACRECEPTION_KEY', 'PACRECEPTION_SECRET' to store your app_id, secret respectively. Here's a quick example, adding the middleware to a Rails app in config/initializers/omniauth.rb.
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```ruby
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :pacreception, ENV['PACRECEPTION_KEY'], ENV['PACRECEPTION_SECRET']
+end
+```
+
+## Configuration
+
+You can configure several options, which you can pass in to the `provider` method via a `Hash`. also refer 'Examples' section accordingly.
+
+Option name | Default | Explanation
+--- | --- | ---
+`scope` | `public` | lets you set scope to provide granular access to different types of data. If not provided, scope defaults to 'public' for users. you can use any one of "write", "public" and "admin" values for scope.
+`auth_type` | nil | Optionally specifies the requested authentication feature. Valid value is 'reauthenticate' (asks the user to re-authenticate unconditionally). If not specified, default value is nil. (reuses the existing session of last authenticated user if any).
+`callback_path` | '/auth/:provider/callback' | Specify a custom callback URL used during the server-side flow. Note this must be same as specified at the time of your applicaiton registration at www.pacreception.com/oauth/applications. Execution flow returns back to this point at consumer application after authencitcation flow finishes at server-side. If not specified, default is '/auth/:provider/callback'. Make an entry for this end point in config/routes.rb of your consumer application. Strategy automatically replaces ':provider' by provider name as specified in config/initializers/omniauth.rb.
+
+### Examples 
+
+#### scope
+
+```ruby
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :pacreception, ENV['PACRECEPTION_KEY'], ENV['PACRECEPTION_SECRET'], { scope: 'admin' }
+end
+```
+If not specified, default scope is 'public'
+
+#### auth_type
+
+```ruby
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :pacreception, ENV['PACRECEPTION_KEY'], ENV['PACRECEPTION_SECRET'], 
+  		{ scope: 'admin', authorize_params: { auth_type: 'reauthenticate' }}
+end
+```
+If not specified, default is nil.
+
+#### callback_path
+
+```ruby
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :pacreception, ENV['PACRECEPTION_KEY'], ENV['PACRECEPTION_SECRET'], 
+      { scope: 'admin', authorize_params: { auth_type: 'reauthenticate' }, 
+        callback_path: '/your/custom/callback/path'}
+end
+```
+If not specified, default callback_path is '/auth/:provider/callback'.Here, finally it would be '/auth/pacreception/callback' as per explained in configuration table.
+
+## Auth Hash
+
+Here's an example *Auth Hash* available in `request.env['omniauth.auth']`:
+
+```ruby
+{
+  provider: 'pacreception',
+  uid: 1212123,
+  info: {
+    email: 'dark.knight@gotham.com',
+    name: 'Bruce Wayne'
+  },
+  credentials: {
+    token: 'ABCDEF...', # OAuth 2.0 access_token, which you may wish to store
+    expires_at: 1321747205, # when the access token expires (it always will)
+    expires: true # this will always be true
+  },
+  extra: {
+    raw_info: {
+      user: {
+        id: 1212123,
+        email: 'dark.knight@gotham.com',
+        first_name: 'Bruce',
+        last_name: 'Wayne'
+      }
+    }
+  }
+}
+```
+
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/omniauth-pacreception. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the Omniauth::Pacreception project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/omniauth-pacreception/blob/master/CODE_OF_CONDUCT.md).
+1. Fork it ( https://github.com/[my-github-username]/omniauth-pacreception/fork )
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create a new Pull Request

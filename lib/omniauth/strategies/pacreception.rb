@@ -15,12 +15,12 @@ module OmniAuth
 
         option :authorize_options, [:scope, :auth_type]
 
-        uid {  raw_info['id']  }
+        uid {  raw_info['user']['id']  }
     
         info do
           prune!({
-            'email' => raw_info['email'],
-            'name' => raw_info['name']
+            'email' => raw_info['user']['email'],
+            'name' => "#{raw_info['user']['first_name']} #{raw_info['user']['last_name']}"
           })
         end
 
