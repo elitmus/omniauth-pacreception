@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{PAC Reception OAuth2 Strategy for OmniAuth}
   spec.description   = %q{PAC Reception OAuth2 Strategy for OmniAuth}
-  spec.homepage      = "https://github.com/akkee/omniauth-pacreception"
+  spec.homepage      = "https://github.com/elitmus/omniauth-pacreception"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
 
     spec.metadata["homepage_uri"] = spec.homepage
     spec.metadata["source_code_uri"] = spec.homepage
-    spec.metadata["changelog_uri"] = "https://github.com/akkee/omniauth-pacreception"
+    spec.metadata["changelog_uri"] = "https://github.com/elitmus/omniauth-pacreception"
   else
     raise "RubyGems 2.0 or newer is required to protect against " \
       "public gem pushes."
