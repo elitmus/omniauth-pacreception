@@ -6,8 +6,8 @@ require "omniauth/pacreception/version"
 Gem::Specification.new do |spec|
   spec.name          = "omniauth-pacreception"
   spec.version       = Omniauth::Pacreception::VERSION
-  spec.authors       = ["Akash Srivastava"]
-  spec.email         = ["akash.srivastava@elitmus.com"]
+  spec.authors       = ["Shireesh Jayashetty"]
+  spec.email         = ["shireesh@elitmus.com"]
 
   spec.summary       = %q{PAC Reception OAuth2 Strategy for OmniAuth}
   spec.description   = %q{PAC Reception OAuth2 Strategy for OmniAuth}
@@ -23,8 +23,7 @@ Gem::Specification.new do |spec|
     spec.metadata["source_code_uri"] = spec.homepage
     spec.metadata["changelog_uri"] = "https://github.com/elitmus/omniauth-pacreception"
   else
-    raise "RubyGems 2.0 or newer is required to protect against " \
-      "public gem pushes."
+    raise "RubyGems 2.0 or newer is required to protect against public gem pushes."
   end
 
   # Specify which files should be added to the gem when it is released.
@@ -36,9 +35,9 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_runtime_dependency 'omniauth-oauth2', '~> 1.5'
+  spec.add_runtime_dependency 'omniauth-oauth2', '~> 1.8'
 
-  spec.add_development_dependency "bundler", "~> 1.17"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "minitest", "~> 5.0"
+  spec.add_development_dependency "bundler", "~> 2.4.19"
+  spec.add_development_dependency "rake", "~> 13.0"
+  spec.add_development_dependency "minitest", "~> 5.25"
 end
