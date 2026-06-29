@@ -10,8 +10,9 @@ Gem::Specification.new do |spec|
   spec.email         = ["shireesh@elitmus.com"]
 
   spec.summary       = %q{PAC Reception OAuth2 Strategy for OmniAuth}
-  spec.description   = %q{PAC Reception OAuth2 Strategy for OmniAuth}
+  spec.description   = %q{An OmniAuth OAuth2 strategy for authenticating users against pacreception.com.}
   spec.homepage      = "https://github.com/elitmus/omniauth-pacreception"
+  spec.required_ruby_version = ">= 3.1"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -37,7 +38,6 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'omniauth-oauth2', '~> 1.8'
 
-  spec.add_development_dependency "bundler", "~> 2.4.19"
   spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "minitest", "~> 5.25"
 end
