@@ -5,7 +5,7 @@ class Omniauth::PacreceptionTest < Minitest::Test
     refute_nil ::Omniauth::Pacreception::VERSION
   end
 
-  def test_it_does_something_useful
-    assert false
+  def test_requiring_the_gem_registers_the_strategy
+    assert defined?(OmniAuth::Strategies::Pacreception)
   end
 end
